@@ -1,0 +1,155 @@
+// This schema defines the database structure for the House Rental Verification Platform.
+// It uses PostgreSQL best practices.
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum UserRole {
+  LANDLORD
+  TENANT
+  ADMIN
+}
+
+enum HouseType {
+  BHK_1
+  BHK_2
+  BHK_3
+  BHK_4
+  STUDIO
+}
+
+enum OccupationType {
+  GOVERNMENT
+  BANK
+  CORPORATE
+  SELF_EMPLOYED
+  OTHER
+}
+
+enum ApplicationStatus {
+  PENDING
+  REVIEWING
+  ACCEPTED
+  REJECTED
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  phone         String    @unique
+  role          UserRole
+  isVerified    Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Profile Relations
+  landlordProfile LandlordProfile?
+  tenantProfile   TenantProfile?
+  
+  // App Relations
+  messagesSent     Message[] @relation("SentMessages")
+  messagesReceived Message[] @relation("ReceivedMessages")
+  documents        Document[]
+}
+
+model LandlordProfile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id])
+  panNumber       String?  @unique
+  isPanVerified   Boolean  @default(false)
+  address         String?
+  pincode         String?
+  properties      Property[]
+}
+
+model TenantProfile {
+  id              String         @id @default(cuid())
+  userId          String         @unique
+  user            User           @relation(fields: [userId], references: [id])
+  occupation      OccupationType
+  company         String?
+  familySize      Int
+  expectedRentMin Float?
+  expectedRentMax Float?
+  preferredLocation String?
+  houseTypePref   HouseType[]
+  
+  applications    Application[]
+}
+
+model Property {
+  id                String      @id @default(cuid())
+  landlordId        String
+  landlord          LandlordProfile @relation(fields: [landlordId], references: [id])
+  address           String
+  pincode           String
+  rent              Float
+  houseType         HouseType
+  ebBillNumber      String?
+  description       String?
+  waterAvailability Boolean     @default(true)
+  separateMeter     Boolean     @default(true)
+  isVerified        Boolean     @default(false)
+  latitude          Float?
+  longitude         Float?
+  createdAt         DateTime    @default(now())
+  
+  images            PropertyImage[]
+  videoUrl          String?
+  applications      Application[]
+}
+
+model PropertyImage {
+  id         String   @id @default(cuid())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id])
+  url        String
+}
+
+model Document {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id])
+  type           String   // ID_PROOF, EMPLOYMENT_PROOF
+  url            String
+  isEncrypted    Boolean  @default(true)
+  expiresAt      DateTime // Auto-delete after 30 days
+  createdAt      DateTime @default(now())
+}
+
+model Application {
+  id          String            @id @default(cuid())
+  propertyId  String
+  property    Property          @relation(fields: [propertyId], references: [id])
+  tenantId    String
+  tenant      TenantProfile     @relation(fields: [tenantId], references: [id])
+  status      ApplicationStatus @default(PENDING)
+  message     String?
+  createdAt   DateTime          @default(now())
+}
+
+model Message {
+  id          String   @id @default(cuid())
+  senderId    String
+  sender      User     @relation("SentMessages", fields: [senderId], references: [id])
+  receiverId  String
+  receiver    User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  content     String
+  createdAt   DateTime @default(now())
+}
+
+model VerificationLog {
+  id        String   @id @default(cuid())
+  targetId  String   // UserID or PropertyID
+  type      String   // PAN, EB_BILL, DOC
+  status    String
+  details   String?
+  createdAt DateTime @default(now())
+}

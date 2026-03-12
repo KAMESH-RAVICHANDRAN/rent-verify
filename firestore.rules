@@ -1,0 +1,154 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users
+    // Document ID: userId (Auth UID)
+    // Fields:
+    //   - uid: string (required) - Auth UID
+    //   - email: string (required) - User email
+    //   - displayName: string (optional)
+    //   - photoURL: string (optional)
+    //   - role: string (required, ['TENANT', 'LANDLORD'])
+    //   - verified: bool (optional)
+    //   - createdAt: string (ISO 8601)
+    //
+    // Collection: properties
+    // Document ID: propertyId
+    // Fields:
+    //   - landlordId: string (required) - Owner UID
+    //   - title: string (required)
+    //   - rent: number (required)
+    //   - address: string (required)
+    //   - latitude: number (optional)
+    //   - longitude: number (optional)
+    //   - facilities: list (optional)
+    //   - rating: number (optional)
+    //   - images: list (optional)
+    //   - createdAt: string (ISO 8601)
+    //
+    // Collection: applications
+    // Document ID: applicationId
+    // Fields:
+    //   - tenantId: string (required)
+    //   - propertyId: string (required)
+    //   - landlordId: string (required)
+    //   - status: string (required, ['PENDING', 'APPROVED', 'REJECTED'])
+    //   - createdAt: string (ISO 8601)
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isDocOwner() {
+      return isAuthenticated() && request.auth.uid == resource.data.uid;
+    }
+
+    function isLandlordOwner() {
+      return isAuthenticated() && request.auth.uid == resource.data.landlordId;
+    }
+
+    function isTenantOwner() {
+      return isAuthenticated() && request.auth.uid == resource.data.tenantId;
+    }
+
+    function isValidEmail(email) {
+      return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    function isValidDateString(dateStr) {
+      return dateStr is string && dateStr.matches("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.*Z?$");
+    }
+
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+          (request.auth.token.email == "kamesh14151@gmail.com" && request.auth.token.email_verified == true));
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    function isValidUser(data) {
+      return hasOnlyAllowedFields(['uid', 'email', 'displayName', 'photoURL', 'role', 'verified', 'createdAt']) &&
+             data.uid == request.auth.uid &&
+             isValidEmail(data.email) &&
+             data.role in ['TENANT', 'LANDLORD'] &&
+             (data.displayName == null || (data.displayName is string && data.displayName.size() < 100)) &&
+             (data.photoURL == null || (data.photoURL is string && data.photoURL.size() < 500)) &&
+             (data.verified == null || data.verified is bool) &&
+             isValidDateString(data.createdAt);
+    }
+
+    function isValidProperty(data) {
+      return hasOnlyAllowedFields(['id', 'landlordId', 'title', 'description', 'rent', 'type', 'address', 'latitude', 'longitude', 'facilities', 'rating', 'images', 'createdAt']) &&
+             data.landlordId == request.auth.uid &&
+             data.title is string && data.title.size() > 0 && data.title.size() < 200 &&
+             data.rent is number && data.rent > 0 &&
+             data.address is string && data.address.size() > 0 && data.address.size() < 500 &&
+             (data.latitude == null || data.latitude is number) &&
+             (data.longitude == null || data.longitude is number) &&
+             (data.facilities == null || data.facilities is list) &&
+             (data.images == null || data.images is list) &&
+             isValidDateString(data.createdAt);
+    }
+
+    function isValidApplication(data) {
+      return hasOnlyAllowedFields(['id', 'tenantId', 'propertyId', 'landlordId', 'status', 'createdAt']) &&
+             data.tenantId == request.auth.uid &&
+             data.status in ['PENDING', 'APPROVED', 'REJECTED'] &&
+             isValidDateString(data.createdAt);
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isOwner(userId) && isValidUser(request.resource.data);
+      allow update: if (isOwner(userId) && isValidUser(request.resource.data) && request.resource.data.role == resource.data.role) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /properties/{propertyId} {
+      allow read: if true; // Properties are public
+      allow create: if isAuthenticated() && isValidProperty(request.resource.data);
+      allow update: if (isLandlordOwner() && isValidProperty(request.resource.data)) || isAdmin();
+      allow delete: if isLandlordOwner() || isAdmin();
+    }
+
+    match /applications/{applicationId} {
+      allow read: if isAuthenticated() && (isTenantOwner() || isLandlordOwner() || isAdmin());
+      allow create: if isAuthenticated() && isValidApplication(request.resource.data);
+      allow update: if isAuthenticated() && (
+        (isTenantOwner() && request.resource.data.status == resource.data.status && isValidApplication(request.resource.data)) ||
+        (isLandlordOwner() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status']) && request.resource.data.status in ['APPROVED', 'REJECTED']) ||
+        isAdmin()
+      );
+      allow delete: if isTenantOwner() || isAdmin();
+    }
+
+    match /test/connection {
+      allow read: if true;
+    }
+  }
+}

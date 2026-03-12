@@ -1,0 +1,9 @@
+{
+  "name": "House Rental Verification Platform",
+  "description": "A secure rental marketplace connecting verified landlords and tenants with smart matching and document verification.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}

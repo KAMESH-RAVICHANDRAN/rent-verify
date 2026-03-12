@@ -1,0 +1,68 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "role": { "type": "string", "enum": ["TENANT", "LANDLORD"] },
+        "verified": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Property": {
+      "title": "Property",
+      "description": "Rental property listing",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "landlordId": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "rent": { "type": "number" },
+        "type": { "type": "string" },
+        "address": { "type": "string" },
+        "latitude": { "type": "number" },
+        "longitude": { "type": "number" },
+        "facilities": { "type": "array", "items": { "type": "string" } },
+        "rating": { "type": "number" },
+        "images": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["landlordId", "title", "rent", "address"]
+    },
+    "Application": {
+      "title": "Application",
+      "description": "Rental application from tenant to landlord",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "tenantId": { "type": "string" },
+        "propertyId": { "type": "string" },
+        "landlordId": { "type": "string" },
+        "status": { "type": "string", "enum": ["PENDING", "APPROVED", "REJECTED"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["tenantId", "propertyId", "landlordId", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/properties/{propertyId}": {
+      "schema": "Property",
+      "description": "Property listings"
+    },
+    "/applications/{applicationId}": {
+      "schema": "Application",
+      "description": "Rental applications"
+    }
+  }
+}
