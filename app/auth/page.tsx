@@ -38,17 +38,17 @@ function AuthContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-bg-secondary flex items-center justify-center">
+      <div className="h-screen overflow-hidden bg-bg-secondary flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#D6D9E4] p-4 sm:p-8">
-      <div className="max-w-6xl w-full bg-[#F8F9FD] rounded-[3rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row min-h-[700px]">
+    <div className="h-screen overflow-hidden flex items-center justify-center bg-[#D6D9E4] p-3 sm:p-5">
+      <div className="max-w-6xl w-full h-full max-h-[calc(100vh-1.5rem)] bg-[#F8F9FD] rounded-[3rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row">
         {/* Left Side: Auth Form */}
-        <div className="w-full lg:w-[45%] flex flex-col justify-center px-8 sm:px-12 lg:px-16 py-12">
+        <div className="w-full lg:w-[45%] flex flex-col justify-center px-8 sm:px-12 lg:px-16 py-6">
           <div className="max-w-sm w-full mx-auto">
             <AnimatePresence mode="wait">
               {step === 'login' && (
@@ -218,7 +218,7 @@ function AuthContent() {
 export default function AuthPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-bg-secondary flex items-center justify-center">
+      <div className="h-screen overflow-hidden bg-bg-secondary flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
       </div>
     }>

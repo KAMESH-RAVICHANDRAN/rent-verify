@@ -33,6 +33,7 @@ import {
 import { Button, Card, Badge, Input } from '@/components/ui-base';
 import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
+import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import PropertyCard from '@/components/PropertyCard';
 import { useAuth, db, OperationType, handleFirestoreError } from '@/firebase';
@@ -99,10 +100,8 @@ export default function TenantDashboard() {
       {/* Sidebar */}
       <aside className="w-80 border-r border-white/5 hidden xl:flex flex-col p-6 sticky top-0 h-screen">
         <div className="flex items-center gap-3 mb-10">
-          <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
-            <Home className="text-black w-6 h-6" />
-          </div>
-          <span className="font-black text-xl tracking-tighter">RentVerify</span>
+          <Image src="/1000130925-Photoroom.png" alt="RentVerify" width={40} height={40} className="rounded-xl object-contain" />
+          <span className="font-blockat text-xl tracking-tighter">RentVerify</span>
         </div>
 
         <div className="space-y-8 flex-1">

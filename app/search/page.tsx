@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Search, MapPin, SlidersHorizontal, ChevronDown, Home, ArrowLeft, LayoutGrid, Map as MapIcon, Loader2 } from 'lucide-react';
 import { Button, Card, Badge } from '@/components/ui-base';
 import Link from 'next/link';
+import Image from 'next/image';
 import PropertyCard from '@/components/PropertyCard';
 import MapComponent from '@/components/MapComponent';
 import SearchableAreaSelect from '@/components/SearchableAreaSelect';
@@ -62,10 +63,8 @@ export default function SearchPage() {
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-black/5">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2 flex-shrink-0">
-            <div className="w-8 h-8 bg-zinc-900 rounded-lg flex items-center justify-center">
-              <Home className="text-white w-5 h-5" />
-            </div>
-            <span className="font-bold text-lg tracking-tight hidden sm:block">RentVerify</span>
+            <Image src="/1000130925-Photoroom.png" alt="RentVerify" width={32} height={32} className="rounded-lg object-contain" />
+            <span className="font-blockat text-lg hidden sm:block">RentVerify</span>
           </Link>
 
           {/* Compact Search Bar */}

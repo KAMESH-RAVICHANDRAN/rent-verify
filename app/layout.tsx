@@ -9,6 +9,10 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'RentVerify | Secure House Rental Platform',
   description: 'Connect with verified landlords and tenants. Secure, fast, and transparent house rentals.',
+  icons: {
+    icon: '/1000130925-Photoroom.png',
+    apple: '/1000130925-Photoroom.png',
+  },
 };
 
 export default function RootLayout({children}: {children: React.ReactNode}) {

@@ -1,5 +1,18 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Blockat';
+  src: url('/blockat-font/Blockat DEMO.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-blockat {
+  font-family: 'Blockat', system-ui, sans-serif;
+  letter-spacing: 0.04em;
+}
+
 @theme {
   --color-primary: #3A7AFE;
   --color-primary-hover: #2F65D8;

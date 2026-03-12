@@ -3,6 +3,7 @@
 import { ShieldCheck, Lock, FileCheck, UserCheck, Home, ArrowRight } from 'lucide-react';
 import { Button, Card } from '@/components/ui-base';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function VerificationProcessPage() {
   return (
@@ -10,10 +11,8 @@ export default function VerificationProcessPage() {
       <nav className="sticky top-0 z-50 glass border-b border-card-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <Home className="text-white w-5 h-5" />
-            </div>
-            <span className="font-bold text-xl tracking-tight text-text-primary">RentVerify</span>
+            <Image src="/1000130925-Photoroom.png" alt="RentVerify" width={32} height={32} className="rounded-lg object-contain" />
+            <span className="font-blockat text-xl text-text-primary">RentVerify</span>
           </Link>
           <Link href="/auth">
             <Button size="sm">Sign In</Button>

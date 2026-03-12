@@ -25,6 +25,7 @@ import { Property, RentalApplication } from '@/types';
 import PropertyCard from '@/components/PropertyCard';
 import TenantRequests from '@/components/TenantRequests';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 export default function LandlordDashboard() {
@@ -88,10 +89,8 @@ export default function LandlordDashboard() {
       <aside className="w-64 bg-white border-r border-card-border hidden lg:flex flex-col sticky top-0 h-screen">
         <div className="p-6 border-b border-card-border">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 bg-zinc-900 rounded-xl flex items-center justify-center">
-              <Home className="text-white w-6 h-6" />
-            </div>
-            <span className="font-black text-xl tracking-tighter">RentVerify</span>
+            <Image src="/1000130925-Photoroom.png" alt="RentVerify" width={40} height={40} className="rounded-xl object-contain" />
+            <span className="font-blockat text-xl tracking-tighter">RentVerify</span>
           </div>
           
           <div className="bg-bg-secondary p-4 rounded-2xl border border-card-border">

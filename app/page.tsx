@@ -5,6 +5,7 @@ import { Search, MapPin, Home, ShieldCheck, Users, ArrowRight, Star, Menu, X, Lo
 import { Button, Card, Input, Badge } from '@/components/ui-base';
 import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuth } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import SearchableAreaSelect from '@/components/SearchableAreaSelect';
@@ -48,10 +49,8 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <Home className="text-white w-5 h-5" />
-              </div>
-              <span className="font-bold text-xl tracking-tight text-text-primary">RentVerify</span>
+              <Image src="/1000130925-Photoroom.png" alt="RentVerify" width={32} height={32} className="rounded-lg object-contain" />
+              <span className="font-blockat text-xl text-text-primary">RentVerify</span>
             </div>
             
             <div className="hidden md:flex items-center gap-8">
@@ -268,10 +267,8 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-4 gap-8">
           <div className="col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-6 h-6 bg-primary rounded flex items-center justify-center">
-                <Home className="text-white w-4 h-4" />
-              </div>
-              <span className="font-bold text-lg">RentVerify</span>
+              <Image src="/1000130925-Photoroom.png" alt="RentVerify" width={24} height={24} className="rounded object-contain" />
+              <span className="font-blockat text-lg">RentVerify</span>
             </div>
             <p className="text-text-muted max-w-sm">
               The next generation of house rental verification. Secure, verified, and smart.
@@ -280,17 +277,17 @@ export default function LandingPage() {
           <div>
             <h4 className="font-bold mb-4">Platform</h4>
             <ul className="space-y-2 text-text-secondary text-sm">
-              <li>Search Houses</li>
-              <li>List Property</li>
-              <li>Verification Process</li>
+              <li><Link href="/search" className="hover:text-primary transition-colors">Search Houses</Link></li>
+              <li><Link href="/list-property" className="hover:text-primary transition-colors">List Property</Link></li>
+              <li><Link href="/verification" className="hover:text-primary transition-colors">Verification Process</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="font-bold mb-4">Company</h4>
             <ul className="space-y-2 text-text-secondary text-sm">
-              <li>About Us</li>
-              <li>Privacy Policy</li>
-              <li>Terms of Service</li>
+              <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li>
+              <li><Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="hover:text-primary transition-colors">Terms of Service</Link></li>
             </ul>
           </div>
         </div>
