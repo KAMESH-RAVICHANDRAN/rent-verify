@@ -127,41 +127,95 @@ export default function LandingPage() {
               </p>
             </motion.div>
 
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
+            {/* Corporate Search Bar */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
-              className="mt-10 w-full max-w-3xl mx-auto bg-white/80 backdrop-blur-xl rounded-[2.5rem] p-4 shadow-2xl border border-black/5 flex flex-col md:flex-row items-center gap-4"
+              className="mt-12 w-full max-w-3xl mx-auto"
             >
-              <div className="flex-1 w-full flex flex-col md:flex-row items-center gap-4">
-                <div className="relative w-full md:w-48">
-                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted">
-                    <MapPin className="w-4 h-4" />
-                  </div>
-                  <input 
-                    type="text"
-                    placeholder="Pincode"
-                    maxLength={6}
-                    value={pincode}
-                    onChange={(e) => setPincode(e.target.value.replace(/\D/g, ''))}
-                    className="w-full bg-bg-primary border border-black/5 rounded-2xl py-3 pl-11 pr-4 text-sm font-bold outline-none focus:border-primary/30 transition-all"
-                  />
-                </div>
-                
-                <SearchableAreaSelect 
-                  onSelect={(area) => {
-                    setSelectedArea(area);
-                    if (area) setPincode(area.pincode);
-                  }}
-                  className="flex-1 w-full"
-                />
+              {/* Label row */}
+              <div className="flex items-center gap-6 mb-3 px-1">
+                <span className="flex items-center gap-1.5 text-xs font-semibold text-text-muted uppercase tracking-widest">
+                  <MapPin className="w-3.5 h-3.5 text-primary" /> Location
+                </span>
+                <span className="w-px h-3.5 bg-card-border" />
+                <span className="flex items-center gap-1.5 text-xs font-semibold text-text-muted uppercase tracking-widest">
+                  <Search className="w-3.5 h-3.5 text-primary" /> Area / Locality
+                </span>
               </div>
 
-              <Link href={`/search?pincode=${pincode}&area=${selectedArea?.name || ''}`} className="w-full md:w-auto">
-                <Button className="w-full md:w-auto rounded-2xl px-8 py-3 h-auto font-bold shadow-lg shadow-primary/20">
-                  <Search className="w-4 h-4 mr-2" /> Search Properties
-                </Button>
-              </Link>
+              {/* Search card */}
+              <div className="relative flex flex-col md:flex-row items-stretch bg-white border border-card-border rounded-2xl shadow-[0_8px_40px_-8px_rgba(58,122,254,0.18)] overflow-hidden">
+
+                {/* Pincode field */}
+                <div className="flex items-center gap-3 px-5 py-4 md:w-48 flex-shrink-0 border-b md:border-b-0 md:border-r border-card-border group focus-within:bg-blue-50/40 transition-colors">
+                  <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-4 h-4 text-primary" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-[10px] font-bold text-text-muted uppercase tracking-wider mb-0.5">Pincode</p>
+                    <input
+                      type="text"
+                      placeholder="e.g. 600001"
+                      maxLength={6}
+                      value={pincode}
+                      onChange={(e) => setPincode(e.target.value.replace(/\D/g, ''))}
+                      className="w-full bg-transparent outline-none text-sm font-semibold text-text-primary placeholder:text-zinc-300"
+                    />
+                  </div>
+                </div>
+
+                {/* Divider dot (desktop) */}
+                <div className="hidden md:flex items-center px-0">
+                  <div className="w-1.5 h-1.5 rounded-full bg-card-border" />
+                </div>
+
+                {/* Area select */}
+                <div className="flex-1 flex items-center gap-3 px-5 py-4 group focus-within:bg-blue-50/40 transition-colors">
+                  <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Search className="w-4 h-4 text-primary" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10px] font-bold text-text-muted uppercase tracking-wider mb-0.5">Area / Locality</p>
+                    <SearchableAreaSelect
+                      onSelect={(area) => {
+                        setSelectedArea(area);
+                        if (area) setPincode(area.pincode);
+                      }}
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+
+                {/* Search button */}
+                <div className="p-2.5 flex items-center">
+                  <Link href={`/search?pincode=${pincode}&area=${selectedArea?.name || ''}`} className="w-full md:w-auto">
+                    <button className="w-full md:w-auto h-12 px-7 bg-primary hover:bg-primary-hover active:scale-95 text-white text-sm font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/25 whitespace-nowrap">
+                      <Search className="w-4 h-4" />
+                      <span>Search</span>
+                    </button>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Trust indicators */}
+              <div className="flex items-center justify-center gap-6 mt-4">
+                <span className="flex items-center gap-1.5 text-xs text-text-muted">
+                  <ShieldCheck className="w-3.5 h-3.5 text-success" />
+                  PAN Verified Landlords
+                </span>
+                <span className="w-px h-3 bg-card-border" />
+                <span className="flex items-center gap-1.5 text-xs text-text-muted">
+                  <Star className="w-3.5 h-3.5 text-warning" />
+                  4.9 avg. rating
+                </span>
+                <span className="w-px h-3 bg-card-border" />
+                <span className="flex items-center gap-1.5 text-xs text-text-muted">
+                  <Users className="w-3.5 h-3.5 text-primary" />
+                  2,400+ listings
+                </span>
+              </div>
             </motion.div>
           </div>
         </div>

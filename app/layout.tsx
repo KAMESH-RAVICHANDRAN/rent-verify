@@ -1,6 +1,7 @@
 import type {Metadata} from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { Analytics } from '@vercel/analytics/next';
 
 import { FirebaseProvider } from '@/firebase';
 
@@ -21,6 +22,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
       <body className={inter.className} suppressHydrationWarning>
         <FirebaseProvider>
           {children}
+          <Analytics />
         </FirebaseProvider>
       </body>
     </html>

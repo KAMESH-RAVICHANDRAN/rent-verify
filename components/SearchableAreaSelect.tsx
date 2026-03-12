@@ -71,14 +71,13 @@ export default function SearchableAreaSelect({ onSelect, className }: Searchable
   return (
     <div className={cn("relative", className)} ref={containerRef}>
       <div 
-        className="flex items-center bg-white/5 rounded-xl border border-white/10 px-3 py-2 cursor-pointer hover:border-primary/30 transition-all shadow-sm"
+        className="flex items-center gap-1 cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <MapPin className="w-4 h-4 text-text-muted mr-2" />
         <input
           type="text"
-          placeholder="Select Area..."
-          className="bg-transparent outline-none text-sm font-medium w-full cursor-pointer text-white placeholder:text-zinc-600"
+          placeholder="Search area or locality…"
+          className="bg-transparent outline-none text-sm font-semibold w-full cursor-pointer text-text-primary placeholder:text-zinc-300"
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
@@ -88,14 +87,14 @@ export default function SearchableAreaSelect({ onSelect, className }: Searchable
         />
         {selectedArea ? (
           <X 
-            className="w-4 h-4 text-text-muted hover:text-error transition-colors ml-2" 
+            className="w-4 h-4 text-text-muted hover:text-error transition-colors ml-1 flex-shrink-0" 
             onClick={(e) => {
               e.stopPropagation();
               clearSelection();
             }}
           />
         ) : (
-          <ChevronDown className={cn("w-4 h-4 text-text-muted transition-transform", isOpen && "rotate-180")} />
+          <ChevronDown className={cn("w-4 h-4 text-zinc-300 transition-transform flex-shrink-0", isOpen && "rotate-180")} />
         )}
       </div>
 
@@ -105,19 +104,19 @@ export default function SearchableAreaSelect({ onSelect, className }: Searchable
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
-            className="absolute top-full left-0 right-0 mt-2 bg-zinc-900 rounded-2xl shadow-2xl border border-white/10 z-50 overflow-hidden max-h-64 overflow-y-auto"
+            className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-card-border z-50 overflow-hidden max-h-64 overflow-y-auto"
           >
             {filteredAreas.length > 0 ? (
               <div className="p-2">
                 {filteredAreas.map((area) => (
                   <div
                     key={area.id}
-                    className="flex items-center justify-between px-4 py-3 hover:bg-white/5 rounded-xl cursor-pointer transition-colors"
+                    className="flex items-center justify-between px-4 py-3 hover:bg-blue-50 rounded-xl cursor-pointer transition-colors"
                     onClick={() => handleSelect(area)}
                   >
                     <div>
-                      <p className="text-sm font-bold text-white">{area.name}</p>
-                      <p className="text-xs text-zinc-500">{area.pincode}</p>
+                      <p className="text-sm font-bold text-text-primary">{area.name}</p>
+                      <p className="text-xs text-text-muted">{area.pincode}</p>
                     </div>
                     {selectedArea?.id === area.id && (
                       <div className="w-2 h-2 bg-primary rounded-full" />
@@ -127,8 +126,8 @@ export default function SearchableAreaSelect({ onSelect, className }: Searchable
               </div>
             ) : (
               <div className="p-8 text-center">
-                <Search className="w-8 h-8 text-zinc-700 mx-auto mb-2 opacity-20" />
-                <p className="text-sm text-zinc-500">No areas found</p>
+                <Search className="w-8 h-8 text-zinc-300 mx-auto mb-2" />
+                <p className="text-sm text-text-muted">No areas found</p>
               </div>
             )}
           </motion.div>

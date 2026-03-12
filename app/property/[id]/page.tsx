@@ -169,7 +169,7 @@ export default function PropertyDetailPage() {
                     <h1 className="text-4xl font-bold text-text-primary">{property.title}</h1>
                     <div className="flex items-center gap-4 mt-2">
                       <p className="text-lg text-text-secondary flex items-center">
-                        <MapPin className="w-5 h-5 mr-2 text-primary" /> {property.area}, {property.city} - {property.pincode}
+                        <MapPin className="w-5 h-5 mr-2 text-primary" /> {property.area}, {property.address} - {property.pincode}
                       </p>
                       <div className="flex items-center gap-1 text-warning font-bold bg-warning/5 px-2 py-1 rounded-lg border border-warning/10">
                         <Star className="w-4 h-4 fill-current" /> 4.8
