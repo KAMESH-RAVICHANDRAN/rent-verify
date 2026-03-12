@@ -231,7 +231,7 @@ export default function LandlordDashboard() {
                       <div key={app.id} className="bg-white p-4 rounded-2xl border border-card-border flex items-center justify-between group hover:border-primary/30 transition-all cursor-pointer">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-full bg-bg-secondary flex items-center justify-center font-bold text-text-secondary">
-                            {app.tenantName[0]}
+                            {app.tenantName?.[0] ?? '?'}
                           </div>
                           <div>
                             <p className="font-bold text-sm">{app.tenantName}</p>
