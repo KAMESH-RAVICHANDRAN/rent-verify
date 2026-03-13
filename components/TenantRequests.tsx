@@ -12,7 +12,7 @@ interface Application {
   propertyId: string;
   landlordId: string;
   status: 'PENDING' | 'APPROVED' | 'REJECTED';
-  createdAt: string;
+  createdAt: any;
   tenant?: any;
   property?: any;
 }

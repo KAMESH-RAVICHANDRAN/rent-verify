@@ -41,8 +41,8 @@ export default function MapComponent({ properties }: MapComponentProps) {
         {properties.map((prop) => (
           <Marker
             key={prop.id}
-            longitude={prop.lng || 77.5946}
-            latitude={prop.lat || 12.9716}
+            longitude={prop.longitude || 77.5946}
+            latitude={prop.latitude || 12.9716}
             anchor="bottom"
             onClick={e => {
               e.originalEvent.stopPropagation();
@@ -61,8 +61,8 @@ export default function MapComponent({ properties }: MapComponentProps) {
         {popupInfo && (
           <Popup
             anchor="top"
-            longitude={popupInfo.lng || 77.5946}
-            latitude={popupInfo.lat || 12.9716}
+            longitude={popupInfo.longitude || 77.5946}
+            latitude={popupInfo.latitude || 12.9716}
             onClose={() => setPopupInfo(null)}
             closeButton={false}
             className="rounded-2xl overflow-hidden shadow-2xl border-none"
@@ -79,7 +79,7 @@ export default function MapComponent({ properties }: MapComponentProps) {
               </div>
               <div className="p-3">
                 <h3 className="font-bold text-sm text-zinc-900 line-clamp-1">{popupInfo.title}</h3>
-                <p className="text-xs text-zinc-500 mt-1">{popupInfo.area}, {popupInfo.city}</p>
+                <p className="text-xs text-zinc-500 mt-1">{popupInfo.area}, {popupInfo.pincode}</p>
                 <p className="text-sm font-bold text-primary mt-2">₹{popupInfo.rent?.toLocaleString()}</p>
               </div>
             </div>

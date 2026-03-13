@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: 'Blockat';
-  src: url('/blockat-font/Blockat DEMO.otf') format('opentype');
+  font-family: 'Bunderon';
+  src: url('/bunderon-font/Bunderan DEMO.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 .font-blockat {
-  font-family: 'Blockat', system-ui, sans-serif;
+  font-family: 'Bunderon', system-ui, sans-serif;
   letter-spacing: 0.04em;
 }
 

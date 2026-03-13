@@ -236,10 +236,10 @@ export default function PropertyDetailPage() {
             <Card className="sticky top-24">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-14 h-14 rounded-2xl bg-accent-terracotta flex items-center justify-center text-white text-xl font-bold">
-                  {property.landlordName?.[0] || 'L'}
+                  L
                 </div>
                 <div>
-                  <h4 className="font-bold text-lg">{property.landlordName || 'Landlord'}</h4>
+                  <h4 className="font-bold text-lg">Verified Landlord</h4>
                   <div className="flex items-center gap-1 text-success text-xs font-bold uppercase">
                     <ShieldCheck className="w-3 h-3" /> Verified Landlord
                   </div>

@@ -89,13 +89,13 @@ export default function MyApplications() {
               <div className="flex-1 space-y-4">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                   <div>
-                    <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors">{app.propertyTitle || 'Property Name'}</h3>
+                    <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors">{app.propertyName || 'Property Name'}</h3>
                     <div className="flex items-center gap-4 mt-1">
                       <p className="text-sm text-zinc-400 flex items-center">
                         <Calendar className="w-4 h-4 mr-1.5" /> Applied on {app.createdAt?.toDate ? app.createdAt.toDate().toLocaleDateString() : 'Recently'}
                       </p>
                       <p className="text-sm text-primary font-bold flex items-center">
-                        <IndianRupee className="w-4 h-4 mr-0.5" /> {app.rent?.toLocaleString()}/mo
+                        <IndianRupee className="w-4 h-4 mr-0.5" /> {app.propertyId}
                       </p>
                     </div>
                   </div>

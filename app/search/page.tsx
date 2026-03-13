@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { Search, MapPin, SlidersHorizontal, ChevronDown, Home, ArrowLeft, LayoutGrid, Map as MapIcon, Loader2 } from 'lucide-react';
 import { Button, Card, Badge } from '@/components/ui-base';
 import Link from 'next/link';
@@ -13,7 +13,7 @@ import { db, OperationType, handleFirestoreError } from '@/firebase';
 import { Property } from '@/types';
 import { useSearchParams } from 'next/navigation';
 
-export default function SearchPage() {
+function SearchContent() {
   const searchParams = useSearchParams();
   const [view, setView] = useState<'grid' | 'map'>('grid');
   const [properties, setProperties] = useState<Property[]>([]);
@@ -184,5 +184,13 @@ export default function SearchPage() {
         )}
       </main>
     </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>}>
+      <SearchContent />
+    </Suspense>
   );
 }
